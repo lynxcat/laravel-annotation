@@ -6,7 +6,7 @@
 
 暂时实现了对类的@RequestMapping(value="user", prefix="system", middleware="auth")功能，参数均为可选，如果只有一个value 可以直接用 @RequestMapping("user")  
 
-对于函数实现了 @PostMapping, @GetMapping, @PutMapping, @AnyMapping(), @PatchMapping, @DeleteMapping, @OptionsMapping， 参数与@RequestMapping, 只是value改为了必填  
+对于函数实现了 @PostMapping, @GetMapping, @PutMapping, @AnyMapping, @PatchMapping, @DeleteMapping, @OptionsMapping， 参数与@RequestMapping一致, 不同点在于value为必填，不写会异常  
 
 支持@GetMapping("/detail/{id}") 这种动态参数的模式，目前尚不支持domain resource, where, namespace, only 等功能，后面如果项目有需要的话进行更新
 
