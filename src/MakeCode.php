@@ -44,7 +44,6 @@ class MakeCode
     public function getMethodCode($namespace, $methods, $indentation = ""){
         $result = "";
         foreach ($methods as $method => $value){
-
             foreach ($this->routeMaps as $fn){
                 if(isset($value[$fn.'Mapping'])){
 
@@ -66,10 +65,9 @@ class MakeCode
                     $params = [$indent, strtolower($fn),$path,$namespace,$method];
                     $result .= str_replace('${route}', str_replace(['${indentation}', '${routeMethod}', '${path}', '${controller}', '${method}'], $params, $this->methodTmp), $code);
                 }
-
             }
-            return $result;
         }
+        return $result;
     }
 
     /**
