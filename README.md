@@ -68,3 +68,11 @@ Step 3.在控制器中使用注解
 
 浏览器访问 http://your_host/users/list 就可以看到结果了
 
+
+  
+另外扩展包自带了两个命令 
+```shell script
+    php artisan annotation:cache #生成缓存文件
+    php artisan annotation:clear #清楚缓存文件
+```
+缓存文件放在 /vendor/lynxcat/laravel-route-annotation中，可以用于对比生成的route是否正确。如果是线上，可直接使用 php artisan route:cache 可以直接生成laravel本身的缓存，扩展包在这个过程中不会生成任何文件
