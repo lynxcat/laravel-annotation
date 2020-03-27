@@ -1,0 +1,23 @@
+{
+    "name": "lynxcat/laravel-route-annotation",
+    "description": "laravel route annotation",
+    "authors": [
+        {
+            "name": "lynxcat",
+            "email": "lynxcatdeng@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lynxcat\\Annotation\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lynxcat\\Annotation\\Provider\\AnnotationProvider"
+            ]
+        }
+    },
+    "require": {}
+}
