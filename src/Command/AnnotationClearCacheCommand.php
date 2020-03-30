@@ -3,7 +3,7 @@
 namespace Lynxcat\Annotation\Command;
 
 use Illuminate\Console\Command;
-use Lynxcat\Annotation\MakeRoute;
+use Lynxcat\Annotation\Service\RouteCache;
 
 class AnnotationClearCacheCommand extends Command
 {
@@ -30,6 +30,6 @@ class AnnotationClearCacheCommand extends Command
      */
     public function handle()
     {
-        MakeRoute::clearCache();
+        RouteCache::clearCache();
     }
 }
