@@ -1,6 +1,7 @@
 {
     "name": "lynxcat/laravel-route-annotation",
     "description": "laravel route annotation",
+    "license": "MIT",
     "authors": [
         {
             "name": "lynxcat",
