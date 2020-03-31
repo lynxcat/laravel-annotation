@@ -49,17 +49,17 @@ class ReaderFactoryImpl implements ReaderFactory
 
     public function start(): ReaderFactory
     {
-        foreach ($this->files->getFiles() as $file => $cls){
+        foreach ($this->files->getFiles() as $file => $cls) {
             try {
                 $ref = new \ReflectionClass($cls);
-                foreach ($this->classes as $class){
+                foreach ($this->classes as $class) {
                     $reader = new $class;
                     $annotationsClass = $reader->parse($ref);
-                    if (!empty($annotationsClass->getAnnotations()) || !empty($annotationsClass->getMethodAnnotations())){
+                    if (!empty($annotationsClass->getAnnotations()) || !empty($annotationsClass->getMethodAnnotations())) {
                         $this->addAnnotationsClass($annotationsClass);
                     }
                 }
-            }catch (\ReflectionException $e){
+            } catch (\ReflectionException $e) {
                 //do nothing.
             }
         }

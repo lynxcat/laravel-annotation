@@ -34,11 +34,11 @@ class RouteAnnotationImpl implements Annotation
 
     public function setModel(AnnotationsClass $model)
     {
-        if ($model->getType() == $this->getType()){
+        if ($model->getType() == $this->getType()) {
             $this->model = $model;
             $this->repeat = 0;
-        }else{
-            throw new \Exception("requires an annotations class type of ".$this->getType());
+        } else {
+            throw new \Exception("requires an annotations class type of " . $this->getType());
         }
     }
 
@@ -51,14 +51,14 @@ class RouteAnnotationImpl implements Annotation
     {
         $model = $this->model;
         $callable = $this->getReduceCallable();
-        $fn = function() use ($model, $callable){
+        $fn = function () use ($model, $callable) {
             $annotations = $model->getAnnotations();
 
-            return array_reduce($annotations, $callable, function () use ($model){
+            return array_reduce($annotations, $callable, function () use ($model) {
                 $annotations = $model->getMethodAnnotations();
                 $class = $model->getClassName();
 
-                foreach ($annotations as $annotation){
+                foreach ($annotations as $annotation) {
                     $method = $annotation[0];
 
                     $annotation = $annotation[1];
@@ -66,14 +66,14 @@ class RouteAnnotationImpl implements Annotation
                     $fn = str_replace("Mapping", "", $annotation->getName());
 
 
-                    if (in_array($fn, $this->routeMaps)){
+                    if (in_array($fn, $this->routeMaps)) {
                         $fn = strtolower($fn);
                         $params = $annotation->getParams();
                         $path = $params["value"];
                         unset($params["value"]);
-                        $method = $class."@".$method;
+                        $method = $class . "@" . $method;
 
-                        Route::group($params, function() use($fn, $path, $method){
+                        Route::group($params, function () use ($fn, $path, $method) {
                             Route::$fn($path, $method);
                         });
                     }
@@ -84,31 +84,32 @@ class RouteAnnotationImpl implements Annotation
         return $fn();
     }
 
-    private function getReduceCallable(){
-        return function ($carry, $item){
+    private function getReduceCallable()
+    {
+        return function ($carry, $item) {
             return function () use ($carry, $item) {
                 $params = $item->getParams();
-                $params["prefix"] = ($params["prefix"] ?? "").($params["value"] ?? "");
+                $params["prefix"] = ($params["prefix"] ?? "") . ($params["value"] ?? "");
                 unset($params["value"]);
                 Route::group($params, $carry);
             };
         };
     }
 
-/**
- * @return string
- * @throws \Exception
- */
+    /**
+     * @return string
+     * @throws \Exception
+     */
 
     public function getCode(): string
     {
         $code = str_replace('${class}', $this->model->getClassName(), "\n\n/**\n * @class \${class}\n */\${code}");
 
         $annotations = $this->model->getAnnotations();
-        foreach ($annotations as $key => $annotation){
+        foreach ($annotations as $key => $annotation) {
             $name = $annotation->getName();
             $params = $annotation->getParams();
-            if ($name == "RequestMapping" && !empty($params)){
+            if ($name == "RequestMapping" && !empty($params)) {
                 $code = str_replace('${code}', $this->getGroupCode($params, str_repeat($this->indentation, $this->repeat++)), $code);
             }
         }
@@ -124,9 +125,10 @@ class RouteAnnotationImpl implements Annotation
      * @param string $indentation
      * @return string
      */
-    public function getMethodCode($class, $methods, $indentation = ""){
+    public function getMethodCode($class, $methods, $indentation = "")
+    {
         $result = "";
-        foreach ($methods as $value){
+        foreach ($methods as $value) {
 
             $method = $value[0];
             $annotation = $value[1];
@@ -134,23 +136,23 @@ class RouteAnnotationImpl implements Annotation
             $name = str_replace("Mapping", "", $annotation->getName());
             $params = $annotation->getParams();
 
-            if (in_array($name, $this->routeMaps)){
-                if(!empty($params['value'])){
+            if (in_array($name, $this->routeMaps)) {
+                if (!empty($params['value'])) {
                     $path = $params['value'];
                     unset($params['value']);
-                }else{
-                    throw new \Exception("method annotation must have value!".$this->arrayToString($methods));
+                } else {
+                    throw new \Exception("method annotation must have value!" . $this->arrayToString($methods));
                 }
 
-                if (!empty($params)){
+                if (!empty($params)) {
                     $code = $this->getGroupCode($params, $indentation);
-                    $indent = $indentation."    ";
-                }else{
+                    $indent = $indentation . "    ";
+                } else {
                     $indent = $indentation;
                     $code = '${code}';
                 }
 
-                $params = [$indent, strtolower($name),$path, $class, $method];
+                $params = [$indent, strtolower($name), $path, $class, $method];
                 $result .= str_replace('${code}', str_replace(['${indentation}', '${routeMethod}', '${path}', '${controller}', '${method}'], $params, $this->methodTmp), $code);
             }
         }
@@ -164,21 +166,22 @@ class RouteAnnotationImpl implements Annotation
      * @return string
      * @throws \Exception
      */
-    public function getGroupCode($annotation, $indentation = ""){
+    public function getGroupCode($annotation, $indentation = "")
+    {
         $params = [];
 
-        if(!empty($annotation["prefix"] ?? "").($annotation["value"] ?? "")){
-            $params["prefix"] = ($annotation["prefix"] ?? "").($annotation["value"] ?? "");
+        if (!empty($annotation["prefix"] ?? "") . ($annotation["value"] ?? "")) {
+            $params["prefix"] = ($annotation["prefix"] ?? "") . ($annotation["value"] ?? "");
         }
 
-        if (!empty($annotation['middleware'])){
+        if (!empty($annotation['middleware'])) {
             $params['middleware'] = $annotation['middleware'];
         }
 
-        if (empty($params)){
-            throw new \Exception("group annotation params has error.".Util::arrayToString($annotation));
+        if (empty($params)) {
+            throw new \Exception("group annotation params has error." . Util::arrayToString($annotation));
         }
 
-        return str_replace(['${indentation}','${group}'], [$indentation, Util::arrayToString($params)], $this->groupTmp);
+        return str_replace(['${indentation}', '${group}'], [$indentation, Util::arrayToString($params)], $this->groupTmp);
     }
 }

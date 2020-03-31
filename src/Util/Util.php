@@ -1,4 +1,5 @@
 <?php
+
 namespace Lynxcat\Annotation\Util;
 
 class Util
@@ -8,7 +9,8 @@ class Util
      * @param array $arr
      * @return string
      */
-    public static function arrayToString(array $arr){
+    public static function arrayToString(array $arr)
+    {
         return str_replace(
             ['{', '}', ':', ','],
             ['[', ']', ' => ', ', '],

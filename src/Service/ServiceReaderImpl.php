@@ -39,9 +39,10 @@ class ServiceReaderImpl implements Reader
      * parse class annotations
      * @param string $docComment
      */
-    private function parseClassAnnotations(string $docComment){
+    private function parseClassAnnotations(string $docComment)
+    {
         $annotations = $this->parseAnnotations($docComment);
-        foreach ($annotations as $annotation){
+        foreach ($annotations as $annotation) {
             $this->model->addAnnotation($annotation);
         }
     }
@@ -50,13 +51,14 @@ class ServiceReaderImpl implements Reader
      * parse annotation comment
      * @param string $docComment
      */
-    private function parseAnnotations(string $docComment){
+    private function parseAnnotations(string $docComment)
+    {
         $result = [];
         preg_match_all($this->regx, $docComment, $result);
         $annotations = [];
 
-        if (!empty($result[1])){
-            for ($i = 0, $len = count($result[1]); $i < $len; $i++){
+        if (!empty($result[1])) {
+            for ($i = 0, $len = count($result[1]); $i < $len; $i++) {
                 $annotation = new AnnotationModel();
                 $annotation->setName($result[1][$i]);
                 array_push($annotations, $annotation);

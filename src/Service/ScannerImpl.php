@@ -1,4 +1,5 @@
 <?php
+
 namespace Lynxcat\Annotation\Service;
 
 use Lynxcat\Annotation\Contracts\Model\Files;
@@ -20,7 +21,7 @@ class ScannerImpl implements Scanner
 
     public function getFiles(): Files
     {
-        if (!$this->isScan){
+        if (!$this->isScan) {
             $this->scanFiles();
         }
 
@@ -31,15 +32,16 @@ class ScannerImpl implements Scanner
      * scan controller
      * @param string $path
      */
-    public function scanFiles($path = ""){
-        $dirHandle = opendir($this->path.$path);
+    public function scanFiles($path = "")
+    {
+        $dirHandle = opendir($this->path . $path);
 
-        while($file = readdir($dirHandle)){
-            if($file !== "." && $file != ".."){
-                if(is_dir($this->path.$path.$file)){
-                    $this->scanFiles($path.$file.DIRECTORY_SEPARATOR);
-                }else{
-                    $this->files->push($this->path.$path.$file, $this->namespace."\\". str_replace(DIRECTORY_SEPARATOR, "\\", $path).str_replace(".php", "", $file));
+        while ($file = readdir($dirHandle)) {
+            if ($file !== "." && $file != "..") {
+                if (is_dir($this->path . $path . $file)) {
+                    $this->scanFiles($path . $file . DIRECTORY_SEPARATOR);
+                } else {
+                    $this->files->push($this->path . $path . $file, $this->namespace . "\\" . str_replace(DIRECTORY_SEPARATOR, "\\", $path) . str_replace(".php", "", $file));
                 }
             }
         }
@@ -55,8 +57,9 @@ class ScannerImpl implements Scanner
         return $this;
     }
 
-    public function scan(): Scanner{
-        if (!$this->isScan){
+    public function scan(): Scanner
+    {
+        if (!$this->isScan) {
             $this->scanFiles();
         }
         return $this;

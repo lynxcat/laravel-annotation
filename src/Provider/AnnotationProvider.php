@@ -1,4 +1,5 @@
 <?php
+
 namespace Lynxcat\Annotation\Provider;
 
 use Illuminate\Support\ServiceProvider;
@@ -25,18 +26,18 @@ class AnnotationProvider extends ServiceProvider
     {
 
         $this->publishes([
-            __DIR__.'/../Config/annotation.php' => config_path('annotation.php'),
+            __DIR__ . '/../Config/annotation.php' => config_path('annotation.php'),
         ]);
 
 
-        if(RouteCache::isCache()){
+        if (RouteCache::isCache()) {
             $this->loadRoutesFrom(RouteCache::loadCache());
-        } else{
+        } else {
             $annotation = new Annotation();
             $annotation->run([base_path(config('annotation.path', 'app/Http/Controllers/')) => config('annotation.namespace', 'App\\Http\\Controllers')]);
         }
 
-        if ($this->app->runningInConsole()){
+        if ($this->app->runningInConsole()) {
             $this->commands([
                 AnnotationCacheCommand::class,
                 AnnotationClearCacheCommand::class

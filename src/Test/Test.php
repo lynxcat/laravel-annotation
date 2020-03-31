@@ -12,7 +12,8 @@ class Test
     /**
      * @PostMapping("index")
      */
-    public function isAge(){
+    public function isAge()
+    {
 
     }
 }

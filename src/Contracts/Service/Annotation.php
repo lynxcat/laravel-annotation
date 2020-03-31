@@ -1,4 +1,5 @@
 <?php
+
 namespace Lynxcat\Annotation\Contracts\Service;
 
 use Lynxcat\Annotation\Contracts\Model\AnnotationsClass;

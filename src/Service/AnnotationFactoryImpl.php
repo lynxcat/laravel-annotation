@@ -21,7 +21,7 @@ class AnnotationFactoryImpl implements AnnotationFactory
     public function start(): AnnotationFactory
     {
         $annotations = [];
-        foreach ($this->annotationClasses as $class){
+        foreach ($this->annotationClasses as $class) {
             array_push($annotations, new $class);
         }
         $this->annotations = $annotations;
@@ -35,11 +35,12 @@ class AnnotationFactoryImpl implements AnnotationFactory
     }
 
 
-    public function getCode(): array {
+    public function getCode(): array
+    {
         $code = [];
-        foreach ($this->classes as $class){
-            foreach ($this->annotations as $annotation){
-                if ($class->getType() == $annotation->getType()){
+        foreach ($this->classes as $class) {
+            foreach ($this->annotations as $annotation) {
+                if ($class->getType() == $annotation->getType()) {
                     $code[$class->getType()] = $code[$class->getType()] ?? "";
                     $annotation->setModel($class);
                     $code[$class->getType()] .= $annotation->getCode();
@@ -49,11 +50,12 @@ class AnnotationFactoryImpl implements AnnotationFactory
         return $code;
     }
 
-    public function getCallable(): array {
+    public function getCallable(): array
+    {
         $callable = [];
-        foreach ($this->classes as $class){
-            foreach ($this->annotations as $annotation){
-                if ($class->getType() == $annotation->getType()){
+        foreach ($this->classes as $class) {
+            foreach ($this->annotations as $annotation) {
+                if ($class->getType() == $annotation->getType()) {
                     $callable[$class->getType()] = $callable[$class->getType()] ?? [];
                     $annotation->setModel($class);
                     array_push($callable[$class->getType()], $annotation->getCallable());

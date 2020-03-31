@@ -49,7 +49,7 @@ class AnnotationCacheCommand extends Command
     {
         $codes = $this->annotation->getCode([base_path(config('annotation.path', 'app/Http/Controllers/')) => config('annotation.namespace', 'App\\Http\\Controllers')]);
 
-        if ($codes['route']){
+        if ($codes['route']) {
             $this->cache->cache($codes['route']);
         }
 

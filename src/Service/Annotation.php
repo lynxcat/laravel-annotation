@@ -18,9 +18,10 @@ class Annotation
     }
 
 
-    public function run($pathNamespaces){
+    public function run($pathNamespaces)
+    {
         //扫描文件
-        foreach ($pathNamespaces as $path => $namespace){
+        foreach ($pathNamespaces as $path => $namespace) {
             $this->scanner->setPathAndNamespace($path, $namespace)->scan();
         }
         $files = $this->scanner->getFiles();
@@ -35,14 +36,15 @@ class Annotation
             RouteAnnotationImpl::class,
         ])->setClasses($classes)->start()->getCallable();
 
-        foreach ($callable['route'] as $callable){
+        foreach ($callable['route'] as $callable) {
             call_user_func($callable);
         }
     }
 
-    public function getCode($pathNamespaces): array {
+    public function getCode($pathNamespaces): array
+    {
         //扫描文件
-        foreach ($pathNamespaces as $path => $namespace){
+        foreach ($pathNamespaces as $path => $namespace) {
             $this->scanner->setPathAndNamespace($path, $namespace)->scan();
         }
         $files = $this->scanner->getFiles();

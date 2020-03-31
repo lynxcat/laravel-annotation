@@ -1,9 +1,12 @@
 <?php
+
 namespace Lynxcat\Annotation\Model;
+
 use Lynxcat\Annotation\Contracts\Model\Annotation;
 use Lynxcat\Annotation\Contracts\Model\AnnotationsClass;
 
-class AnnotationsClassModel implements AnnotationsClass {
+class AnnotationsClassModel implements AnnotationsClass
+{
 
     private $type;
 
@@ -17,35 +20,43 @@ class AnnotationsClassModel implements AnnotationsClass {
 
     private $methodsModel = [];
 
-    public function setType(string $type){
+    public function setType(string $type)
+    {
         $this->type = $type;
     }
 
-    public function getType(): string {
+    public function getType(): string
+    {
         return $this->type;
     }
 
-    public function setClassName(string $name){
+    public function setClassName(string $name)
+    {
         $this->className = $name;
     }
 
-    public function getClassName(): string {
+    public function getClassName(): string
+    {
         return $this->className;
     }
 
-    public function setClassNamespace(string $namespace){
+    public function setClassNamespace(string $namespace)
+    {
         $this->classNamespace = $namespace;
     }
 
-    public function getClassNamespace(): string {
+    public function getClassNamespace(): string
+    {
         return $this->classNamespace;
     }
 
-    public function getAnnotations(): array {
+    public function getAnnotations(): array
+    {
         return $this->annotations;
     }
 
-    public function addAnnotation(Annotation $annotation){
+    public function addAnnotation(Annotation $annotation)
+    {
         array_push($this->annotations, $annotation);
     }
 
@@ -59,11 +70,13 @@ class AnnotationsClassModel implements AnnotationsClass {
         return $this->implements;
     }
 
-    public function addMethodAnnotation(string $method, Annotation $model){
+    public function addMethodAnnotation(string $method, Annotation $model)
+    {
         array_push($this->methodsModel, [$method, $model]);
     }
 
-    public function getMethodAnnotations(): array {
+    public function getMethodAnnotations(): array
+    {
         return $this->methodsModel;
     }
 }

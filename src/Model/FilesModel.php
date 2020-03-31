@@ -1,4 +1,5 @@
 <?php
+
 namespace Lynxcat\Annotation\Model;
 
 use Lynxcat\Annotation\Contracts\Model\Files;
@@ -14,7 +15,8 @@ class FilesModel implements Files
      * push file
      * @param $file
      */
-    public function push(string $file, string $class){
+    public function push(string $file, string $class)
+    {
         $this->files[$file] = $class;
     }
 
@@ -22,7 +24,8 @@ class FilesModel implements Files
      * get all file
      * @return array
      */
-    public function getFiles(): array {
+    public function getFiles(): array
+    {
         return $this->files;
     }
 }
