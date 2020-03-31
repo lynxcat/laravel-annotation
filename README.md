@@ -11,8 +11,9 @@
 支持@GetMapping("/detail/{id}") 这种动态参数的模式，目前尚不支持domain resource, where, namespace, only 等功能，后面如果项目有需要的话进行更新
 
 
-##安装
+##安装使用
 
+###Route
 Step 1.下载源码
 ```shell script
     git clone https://github.com/lynxcat/laravel-route-annotation.git your path
@@ -69,10 +70,51 @@ Step 3.在控制器中使用注解
 浏览器访问 http://your_host/users/list 就可以看到结果了
 
 
+###Service
+
+Step 1.在类中加上注解
+```php
+/**
+ * Class UserServiceImpl
+ * @package App\Services
+ *
+ * @Service
+ */
+class UserServiceImpl implements UserInterface {
+
+}
+```
+
+Step 2.可以直接使用
+```php
+use App\Contracts\UserInterface as User;
+use Illuminate\Http\Request;
+
+/**
+ * Class UserController
+ * @package App\Http\Controllers
+ * @RequestMapping("users")
+ */
+class UserController extends Controller
+{
+    protected $user;
+    protected $request;
+
+    public function __construct(Request $request, User $user)
+    {
+        $this->request = $request;
+        $this->user = $user;
+    }
+}
+```
+
   
 另外扩展包自带了两个命令 
 ```shell script
     php artisan annotation:cache #生成缓存文件
     php artisan annotation:clear #清除缓存文件
 ```
-缓存文件放在 /vendor/lynxcat/laravel-route-annotation中，可以用于对比生成的route是否正确。如果是线上，可直接使用 php artisan route:cache 可以直接生成laravel本身的缓存，扩展包在这个过程中不会生成任何文件
+缓存文件放在 /vendor/lynxcat/laravel-route-annotation/src/Cache/中，可以用于对比生成的route以及service是否正确。
+
+生产环境建议使用 php artisan annotation:cache; php artisan route:cache 可以提升文件读取效率
+
