@@ -10,11 +10,6 @@ use Lynxcat\Annotation\Contracts\Service\Reader;
 use Lynxcat\Annotation\Contracts\Service\ReaderFactory;
 use Mockery\Exception;
 
-/**
- * @Service
- * Class ReaderFactoryImpl
- * @package Lynxcat\Annotation\Service
- */
 class ReaderFactoryImpl implements ReaderFactory
 {
 

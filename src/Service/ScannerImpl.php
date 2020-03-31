@@ -32,7 +32,7 @@ class ScannerImpl implements Scanner
      * scan controller
      * @param string $path
      */
-    public function scanFiles($path = "")
+    public function scanFiles($path = ""): void
     {
         $dirHandle = opendir($this->path . $path);
 

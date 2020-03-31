@@ -9,7 +9,7 @@ class Util
      * @param array $arr
      * @return string
      */
-    public static function arrayToString(array $arr)
+    public static function arrayToString(array $arr): string
     {
         return str_replace(
             ['{', '}', ':', ','],

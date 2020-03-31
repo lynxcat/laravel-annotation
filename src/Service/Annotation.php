@@ -18,48 +18,54 @@ class Annotation
     }
 
 
-    public function run($pathNamespaces)
+    public function run(array $pathNamespaces, object $app): void
     {
-        //扫描文件
-        foreach ($pathNamespaces as $path => $namespace) {
-            $this->scanner->setPathAndNamespace($path, $namespace)->scan();
-        }
-        $files = $this->scanner->getFiles();
-        //解析注解
-        $classes = $this->readerFactory->setFiles($files)->setReaderClasses([
-            RouteReaderImpl::class,
-            ServiceReaderImpl::class
-        ])->start()->getAnnotationsClass();
+        $classes = $this->boot($pathNamespaces);
 
-        //根据注解生成回调函数
+        //make callable
         $callable = $this->annotationFactory->setAnnotationClasses([
             RouteAnnotationImpl::class,
+            ServiceAnnotationImpl::class
         ])->setClasses($classes)->start()->getCallable();
 
-        foreach ($callable['route'] as $callable) {
-            call_user_func($callable);
+        //call route function
+        if (isset($callable['route'])) {
+            foreach ($callable['route'] as $fn) {
+                call_user_func($fn);
+            }
+        }
+
+        //call service function
+        if (isset($callable['service'])) {
+            foreach ($callable['service'] as $fn) {
+                call_user_func($fn, $app);
+            }
         }
     }
 
-    public function getCode($pathNamespaces): array
+    public function getCode(array $pathNamespaces): array
     {
-        //扫描文件
+        $classes = $this->boot($pathNamespaces);
+
+        //create code
+        return $this->annotationFactory->setAnnotationClasses([
+            RouteAnnotationImpl::class,
+            ServiceAnnotationImpl::class
+        ])->setClasses($classes)->start()->getCode();
+    }
+
+    public function boot(array $pathNamespaces): array
+    {
+        //scan files
         foreach ($pathNamespaces as $path => $namespace) {
             $this->scanner->setPathAndNamespace($path, $namespace)->scan();
         }
         $files = $this->scanner->getFiles();
 
-        //解析注解
-        $classes = $this->readerFactory->setFiles($files)->setReaderClasses([
+        //parse annotations
+        return $this->readerFactory->setFiles($files)->setReaderClasses([
             RouteReaderImpl::class,
             ServiceReaderImpl::class
         ])->start()->getAnnotationsClass();
-
-        //根据注解生成代码
-        $code = $this->annotationFactory->setAnnotationClasses([
-            RouteAnnotationImpl::class,
-        ])->setClasses($classes)->start()->getCode();
-
-        return $code;
     }
 }

@@ -39,7 +39,7 @@ class ServiceReaderImpl implements Reader
      * parse class annotations
      * @param string $docComment
      */
-    private function parseClassAnnotations(string $docComment)
+    private function parseClassAnnotations(string $docComment): void
     {
         $annotations = $this->parseAnnotations($docComment);
         foreach ($annotations as $annotation) {
@@ -48,10 +48,11 @@ class ServiceReaderImpl implements Reader
     }
 
     /**
-     * parse annotation comment
+     * parse annotations
      * @param string $docComment
+     * @return array
      */
-    private function parseAnnotations(string $docComment)
+    private function parseAnnotations(string $docComment): array
     {
         $result = [];
         preg_match_all($this->regx, $docComment, $result);

@@ -5,7 +5,7 @@ namespace Lynxcat\Annotation\Command;
 use Illuminate\Console\Command;
 
 use Lynxcat\Annotation\Service\Annotation;
-use Lynxcat\Annotation\Service\RouteCache;
+use Lynxcat\Annotation\Service\Cache;
 
 
 class AnnotationCacheCommand extends Command
@@ -36,7 +36,7 @@ class AnnotationCacheCommand extends Command
     public function __construct()
     {
         $this->annotation = new Annotation();
-        $this->cache = new RouteCache();
+        $this->cache = new Cache();
         parent::__construct();
     }
 
@@ -47,11 +47,20 @@ class AnnotationCacheCommand extends Command
      */
     public function handle()
     {
-        $codes = $this->annotation->getCode([base_path(config('annotation.path', 'app/Http/Controllers/')) => config('annotation.namespace', 'App\\Http\\Controllers')]);
+        $params = [base_path(config('annotation.path')) => config('annotation.namespace')];
 
-        if ($codes['route']) {
-            $this->cache->cache($codes['route']);
+        if (config('annotation.serviceIsOpen')) {
+            $params[base_path(config('annotation.servicePath'))] = config('annotation.serviceNamespace');
         }
 
+        $codes = $this->annotation->getCode($params);
+
+        if (isset($codes['route'])) {
+            $this->cache->routeCache($codes['route']);
+        }
+
+        if (isset($codes['service'])) {
+            $this->cache->serviceCache($codes['service']);
+        }
     }
 }

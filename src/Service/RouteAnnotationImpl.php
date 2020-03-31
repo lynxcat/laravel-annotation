@@ -124,8 +124,9 @@ class RouteAnnotationImpl implements Annotation
      * @param $methods
      * @param string $indentation
      * @return string
+     * @throws \Exception
      */
-    public function getMethodCode($class, $methods, $indentation = "")
+    public function getMethodCode($class, $methods, $indentation = ""): string
     {
         $result = "";
         foreach ($methods as $value) {
@@ -141,7 +142,7 @@ class RouteAnnotationImpl implements Annotation
                     $path = $params['value'];
                     unset($params['value']);
                 } else {
-                    throw new \Exception("method annotation must have value!" . $this->arrayToString($methods));
+                    throw new \Exception("method annotation must have value!" . Util::arrayToString($methods));
                 }
 
                 if (!empty($params)) {
@@ -170,7 +171,7 @@ class RouteAnnotationImpl implements Annotation
     {
         $params = [];
 
-        if (!empty($annotation["prefix"] ?? "") . ($annotation["value"] ?? "")) {
+        if (!empty(($annotation["prefix"] ?? "") . ($annotation["value"] ?? ""))) {
             $params["prefix"] = ($annotation["prefix"] ?? "") . ($annotation["value"] ?? "");
         }
 
