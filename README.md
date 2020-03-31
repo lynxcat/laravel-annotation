@@ -13,7 +13,8 @@
 
 ##安装使用
 
-###Route
+###Route  
+
 Step 1.下载源码
 ```shell script
     git clone https://github.com/lynxcat/laravel-route-annotation.git your path
@@ -70,7 +71,8 @@ Step 3.在控制器中使用注解
 浏览器访问 http://your_host/users/list 就可以看到结果了
 
 
-###Service
+###Service  
+
 
 Step 1.在类中加上注解
 ```php
