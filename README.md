@@ -17,24 +17,10 @@
 
 Step 1.下载源码
 ```shell script
-    git clone https://github.com/lynxcat/laravel-route-annotation.git your path
-```
-Step 2.修改项目composer.json,在对应的项增加以下内容
-```json
-    {
-        "require": {
-            "lynxcat/laravel-route-annotation": "*"
-        },
-        "repositories": {
-            "lynxcat": {
-                "type": "path",
-                "url": "your path"
-            }
-        }
-    }
+    composer require lynxcat/laravel-route-annotation
 ```
 
-Step 3.在控制器中使用注解
+Step 2.在控制器中使用注解
 ```php
     
     /**
