@@ -1,4 +1,4 @@
-# laravel-route-annotation
+# laravel-annotation
 
 最近在laravel项目中，遇到了显式路由和隐式之争。 显式路由太杂乱，要么文件里面写很多条路由，要么分成很多文件，不是很爽。而隐式路由，因为需要实现一套自己项目的内部逻辑，增加一定的上手成本，还有可能导致框架本身的route:cache使用不了  
 
@@ -17,7 +17,7 @@
 
 Step 1.下载源码
 ```shell script
-    composer require lynxcat/laravel-route-annotation
+    composer require lynxcat/laravel-annotation
 ```
 
 Step 2.在控制器中使用注解
@@ -102,7 +102,7 @@ class UserController extends Controller
     php artisan annotation:cache #生成缓存文件
     php artisan annotation:clear #清除缓存文件
 ```
-缓存文件放在 /vendor/lynxcat/laravel-route-annotation/src/Cache/中，可以用于对比生成的route以及service是否正确。
+缓存文件放在 /vendor/lynxcat/laravel-annotation/src/Cache/中，可以用于对比生成的route以及service是否正确。
 
 生产环境建议使用 php artisan annotation:cache; php artisan route:cache 可以提升文件读取效率
 
