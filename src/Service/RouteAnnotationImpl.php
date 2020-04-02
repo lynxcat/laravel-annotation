@@ -65,7 +65,6 @@ class RouteAnnotationImpl implements Annotation
 
                     $fn = str_replace("Mapping", "", $annotation->getName());
 
-
                     if (in_array($fn, $this->routeMaps)) {
                         $fn = strtolower($fn);
                         $params = $annotation->getParams();
